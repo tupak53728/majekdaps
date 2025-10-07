@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Dapps Protocol Net</title>
+    <meta name="description" content="The page you are looking for does not exist on Dapps Protocol Net.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a; /* Dark base color */
+            color: #e2e8f0; /* Light text color */
+            overflow: hidden; /* Prevents scrollbars from background animations */
+            position: relative; /* For stacking pseudo-elements */
+        }
+
+        /* Enhanced Animated Background Pattern */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind everything */
+            pointer-events: none; /* Allows interaction with content */
+        }
+
+        /* Layer 1: Subtle, slow-moving grid */
+        body::before {
+            background-image:
+                repeating-linear-gradient(45deg, #1f2937 0px, #1f2937 1px, transparent 1px, transparent 60px),
+                repeating-linear-gradient(-45deg, #1f2937 0px, #1f2937 1px, transparent 1px, transparent 60px);
+            background-size: 120px 120px;
+            opacity: 0.06; /* Slightly more visible */
+            animation: backgroundMove1 90s linear infinite;
+        }
+
+        /* Layer 2: Faster, slightly more prominent grid */
+        body::after {
+            background-image:
+                repeating-linear-gradient(45deg, #2d3748 0px, #2d3748 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(-45deg, #2d3748 0px, #2d3748 1px, transparent 1px, transparent 40px);
+            background-size: 80px 80px;
+            opacity: 0.08; /* More visible than layer 1 */
+            animation: backgroundMove2 60s linear infinite reverse; /* Moves in opposite direction */
+        }
+
+        @keyframes backgroundMove1 {
+            0% { background-position: 0 0; }
+            100% { background-position: 120px 120px; }
+        }
+        @keyframes backgroundMove2 {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 80px; }
+        }
+
+        /* Custom glow effect for interactive buttons (from other pages) */
+        .glow-on-hover {
+            position: relative;
+            z-index: 0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a202c;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .glow-on-hover:before {
+            content: '';
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+            border-radius: 0.5rem;
+        }
+
+        .glow-on-hover:active {
+            color: #000
+        }
+
+        .glow-on-hover:active:after {
+            background: transparent;
+        }
+
+        .glow-on-hover:hover:before {
+            opacity: 1;
+        }
+
+        .glow-on-hover:after {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #1a202c;
+            left: 0;
+            top: 0;
+            border-radius: 0.5rem;
+        }
+
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+
+        /* SVG Icon Animation */
+        .svg-icon-animate {
+            animation: bounce 1.5s infinite ease-in-out, glowPulse 2s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5)) drop-shadow(0 0 10px rgba(255, 0, 0, 0.3)); }
+            100% { filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 0, 0, 0.6)); }
+        }
+
+        /* Text Entry Animations */
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-text-1 { animation: fadeInSlideUp 0.8s ease-out forwards; animation-delay: 0.2s; opacity: 0; }
+        .animate-text-2 { animation: fadeInSlideUp 0.8s ease-out forwards; animation-delay: 0.4s; opacity: 0; }
+        .animate-text-3 { animation: fadeInSlideUp 0.8s ease-out forwards; animation-delay: 0.6s; opacity: 0; }
+        .animate-button-1 { animation: fadeInSlideUp 0.8s ease-out forwards; animation-delay: 0.8s; opacity: 0; }
+        .animate-button-2 { animation: fadeInSlideUp 0.8s ease-out forwards; animation-delay: 1.0s; opacity: 0; }
+
+        /* Pulsating glow for the main content box */
+        .content-box-glow {
+            animation: boxGlow 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes boxGlow {
+            0% { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 0px rgba(138, 43, 226, 0.2); }
+            100% { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 25px rgba(138, 43, 226, 0.5); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between">
+
+    <header class="relative z-50 w-full bg-gray-900 bg-opacity-80 backdrop-blur-sm shadow-lg py-4 px-4 md:px-12 flex justify-between items-center">
+        <div class="flex items-center space-x-2 sm:space-x-3">
+            <img src="images/logo_mark.84dd8525.svg" alt="Dapps Protocol Net Logo" class="h-7 w-7 sm:h-8 sm:w-8 rounded-full">
+            <span class="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                Dapps Protocol Net
+            </span>
+        </div>
+        <nav>
+            </nav>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center justify-center text-center p-4">
+        <div class="bg-gray-800 bg-opacity-90 backdrop-blur-md rounded-xl shadow-2xl p-8 md:p-12 max-w-lg w-full border border-gray-700 content-box-glow">
+            <div class="mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 mx-auto text-red-500 mb-4 svg-icon-animate">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.38 3.375 2.07 3.375h14.006c1.69 0 2.936-1.875 2.069-3.375L12.72 4.09c-.723-1.25-2.503-1.25-3.226 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                </svg>
+                <h1 class="text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 mb-4 animate-text-1">
+                    404
+                </h1>
+                <p class="text-xl md:text-2xl font-semibold text-gray-200 mb-4 animate-text-2">
+                    Page Not Found
+                </p>
+                <p class="text-gray-400 leading-relaxed text-sm md:text-base animate-text-3">
+                    Oops! It looks like the page you were trying to access doesn't exist.
+                    It might have been moved, deleted, or you might have mistyped the address.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <a href="index.html" class="block w-full glow-on-hover text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 animate-button-1">
+                    Go to Homepage
+                </a>
+                <a href="mailto:support@dappsprotocolnet.com" class="block w-full py-3 px-8 bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 animate-button-2">
+                    Contact Support
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-950 py-6 px-4 md:px-12 text-center text-gray-400 text-xs sm:text-sm w-full">
+        <p>&copy; <span id="currentYear"></span> Dapps Protocol Net. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript to automatically update the copyright year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

